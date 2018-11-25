@@ -1,5 +1,7 @@
 FROM openjdk:8-jdk
 
+LABEL maintainer "Denis Itskovich <denis.itskovich@gmail.com>"
+
 SHELL ["/bin/bash", "-c"]
 RUN apt-get --quiet update
 RUN apt-get --quiet install wget tar unzip
