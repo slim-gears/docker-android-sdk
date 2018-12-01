@@ -5,7 +5,7 @@ LABEL maintainer "Denis Itskovich <denis.itskovich@gmail.com>"
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get --quiet update
-RUN apt-get --quiet -y install wget tar unzip qemu-kvm libglu1-mesa
+RUN apt-get --quiet -y install git wget tar unzip qemu-kvm libglu1-mesa
 
 ENV ANDROID_HOME=/android-sdk
 ENV ANDROID_COMPILE_SDK=28
