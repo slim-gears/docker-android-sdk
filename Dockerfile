@@ -26,10 +26,8 @@ RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "emulator"
 RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-$AVD;google_apis;x86"
 
 RUN set +o pipefail;yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses;set -o pipefail
-RUN echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --name android-$AVD -k "system-images;android-$AVD;google_apis;x86"
+RUN echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --name emulator -k "system-images;android-$AVD;google_apis;x86"
 
-EXPOSE 5555/tcp
+EXPOSE 5555/tcp 5554/tcp
 COPY emulator.sh /
 RUN chmod +x /emulator.sh
-
-ENTRYPOINT ["/bin/bash", "-c", "/emulator.sh"]
