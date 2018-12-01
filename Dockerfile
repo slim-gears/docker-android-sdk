@@ -5,13 +5,14 @@ LABEL maintainer "Denis Itskovich <denis.itskovich@gmail.com>"
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get --quiet update
-RUN apt-get --quiet -y install git wget tar unzip qemu-kvm libglu1-mesa
+RUN apt-get --quiet -y install git wget tar unzip qemu-system-arm libglu1-mesa
 
 ENV ANDROID_HOME=/android-sdk
 ENV ANDROID_COMPILE_SDK=28
 ENV ANDROID_SDK_TOOLS=4333796
 ENV ANDROID_BUILD_TOOLS=28.0.3
-ENV AVD=28
+ENV ANDROID_VER=25
+ENV ANDROID_TARGET_CPU=armeabi-v7a
 ENV PATH=$ANDROID_HOME/platform-tools/:$ANDROID_HOME/emulator:${PATH}
 
 RUN mkdir -p $ANDROID_HOME
@@ -23,10 +24,10 @@ RUN rm android-sdk.zip
 RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-$ANDROID_COMPILE_SDK"
 RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools"
 RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "emulator"
-RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-$AVD;google_apis;x86"
+RUN echo y | $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-$ANDROID_VER;google_apis;$ANDROID_TARGET_CPU"
 
 RUN set +o pipefail;yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses;set -o pipefail
-RUN echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --name emulator -k "system-images;android-$AVD;google_apis;x86"
+RUN echo no | $ANDROID_HOME/tools/bin/avdmanager create avd --name emulator -k "system-images;android-$ANDROID_VER;google_apis;$ANDROID_TARGET_CPU"
 
 EXPOSE 5555/tcp 5554/tcp
 COPY emulator.sh /
